@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#. ./VERSION
+
+SOURCE=$(pwd)/src
+PORT=${2-"1080"}
+
+echo "Source: ${SOURCE}"
+
+[ $(docker ps -a | grep "dotnetCoreAPI" | wc -l) -gt 0 ] && docker ps -a | grep "dotnetCoreAPI" | awk '{print $1}' | xargs docker rm -f
+docker run --name="dotnetCoreAPI" -p ${PORT}:${PORT} -e TIER=ote dotnetCoreAPI:latest
+docker exec -it (docker ps -lq) /bin/bash
