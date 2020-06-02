@@ -1,0 +1,9 @@
+#!/bin/bash
+
+. ./VERSION
+
+rsync -av -r -c --delete-excluded --progress ./src ./docker
+
+docker build --tag "dotnetCoreAPI:latest" --rm=true --force-rm=true --no-cache=true ./docker/
+
+rm -Rf ./docker/src
